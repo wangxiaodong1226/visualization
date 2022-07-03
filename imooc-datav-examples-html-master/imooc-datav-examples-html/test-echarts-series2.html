@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- 引入echarts库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"></script>
+    <style>
+      #chart {
+        width: 800px;
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script>
+      const chartDom = document.getElementById('chart');
+      // const chart = echarts.init(chartDom);
+      // const chart = echarts.init(chartDom,'dark');黑色主题
+      const chart = echarts.init(chartDom,'vintage',{ renderer: 'svg'});//配置其他主题方案
+      chart.setOption({
+        dataset: {
+          source: [
+            ['一季度', 100, 79, '分类1', 50],
+            ['二季度', 112, 81, '分类2', 60],
+            ['三季度', 96, 88, '分类3', 55],
+            ['四季度', 123, 72, '分类4', 70]
+          ]
+          //二维数组,把所有数据填充进来,用encode找到对应列对应值
+        },
+        title: {
+          text: 'ECharts 多系列案例', //标题
+          subtext: '慕课网数据可视化课程' //标题
+        },
+        xAxis: { //x轴分类 
+          data: ['一季度', '二季度', '三季度', '四季度']
+        },
+        yAxis: {}, //y轴坐标轴
+        legend: {   //图列 最上面的区分导航栏
+          data: [{
+            name: '分类',
+            icon: 'circle',
+            textStyle: {
+              color: 'red'
+            }
+          }, '折线图', '柱状图'],
+          left: 300
+        },
+        grid: {
+            top: 100,
+            left: '10%',
+            right: '10%',
+            bottom: 100
+        },
+        toolbox: { //右侧按钮缩放还原保存图片
+            feature: {
+                saveAsImage: {},
+                dataZoom: {
+                    yAxisIndex: false //不选取任何y轴坐标轴
+                },
+                restore: {}
+            }
+        },
+        dataZoom: [ //可以拉动手柄进行改变移动它
+            {
+                show: true, //表示进行展示
+                start: 30, //开始位置
+                end: 70 //结束位置
+            }
+        ],
+        series: [{  //多系列
+          name: '分类',
+          type: 'pie',   //类型饼图
+          center: ['65%', 60],  //饼图显示位置 据左侧 右侧位置
+          radius: 35, //半径
+          encode: { itemName: 3, value: 4 }
+        }, {
+          name: '折线图',
+          type: 'line',
+          encode: { x: 0, y: 1 }
+        }, {
+          name: '柱状图',
+          type: 'bar',
+          encode: { x: 0, y: 2 }
+        }]
+      });
+    </script>
+  </body>
+</html>
